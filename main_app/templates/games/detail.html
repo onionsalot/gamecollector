@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Cat Details</h1>
+
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ game.name }}</span>
+        <p>Genre: {{ game.genre }}</p>
+        <p>Release-Year: {{ game.release_year }}</p>
+        <p>Description: {{ game.description }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'games_update' game.id %}">Edit</a>
+        <a href="{% url 'games_delete' game.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+  <div class="col s6">
+    <form action="{% url 'add_review' game.id %}"method='post'>
+      {% csrf_token %}
+      {{ review_form.as_p }}
+      <input type='submit' class='btn' value='Add Feeding'>
+    </form>
+    <table class="striped">
+      <thead>
+        <tr><th>Date</th><th>Meal</th></tr>
+      </thead>
+      <tbody>
+        {% for review in game.review_set.all %}
+          <tr>
+            <td>{{review.date}}</td>
+            <td>{{review.get_grade_display}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<script>
+  const dateEl = document.getElementById('id_date');
+  M.Datepicker.init(dateEl, {
+    format: 'yyyy-mm-dd',
+    defaultDate: new Date(),
+    setDefaultDate: true,
+    autoClose: true
+  })
+
+  const selectEl = document.getElementById('id_grade');
+  M.FormSelect.init(selectEl);
+</script>
+{% endblock %}
