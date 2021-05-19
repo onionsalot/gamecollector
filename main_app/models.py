@@ -9,6 +9,15 @@ GRADES = (
     ('E', 'Mediocre'),
     ('F', 'Failure')
 )
+class Store(models.Model):
+    name = models.CharField(max_length=100)
+    address = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('stores_detail', kwargs={'pk': self.id})
 
 # Create your models here.
 class Game(models.Model):
@@ -16,6 +25,7 @@ class Game(models.Model):
     genre = models.CharField(max_length=100)
     description = models.TextField(max_length=250)
     release_year = models.IntegerField()
+    stores = models.ManyToManyField(Store)
 
     def __str__(self):
         return self.name
@@ -34,3 +44,4 @@ class Review(models.Model):
 
     class Meta:
         ordering = ['-date']
+
