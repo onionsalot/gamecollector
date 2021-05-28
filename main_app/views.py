@@ -1,31 +1,20 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse   
-from .models import Game 
+from .models import Game, Store
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from .forms import ReviewForm
 
-# Add the Cat class & list and view function below the imports
-# class Cat:  # Note that parens are optional if not inheriting from another class
-#   def __init__(self, name, breed, description, age):
-#     self.name = name
-#     self.breed = breed
-#     self.description = description
-#     self.age = age
 
-# games = [
-#   Cat('Lolo', 'tabby', 'foul little demon', 3),
-#   Cat('Sachi', 'tortoise shell', 'diluted tortoise shell', 0),
-#   Cat('Raven', 'black tripod', '3 legged cat', 4)
-# ]
 
 def games_detail(request, game_id):
   game = Game.objects.get(id=game_id)
+  stores_game_not_in = Store.objects.exclude(id__in = game.stores.all().values_list('id'))
   review_form = ReviewForm()
-  return render(request, 'games/detail.html', { 'game': game, 'review_form': review_form})
+  return render(request, 'games/detail.html', { 'game': game, 'review_form': review_form, 'stores': stores_game_not_in})
 
 # Create your views here.
 def home(request):
-    return HttpResponse('dsfdhfjkdsfhjksdjk')
+    return redirect('/games')
 
 def about(request):
     return render(request, 'about.html')
@@ -40,6 +29,14 @@ def add_review(request, game_id):
         new_review = form.save(commit=False)
         new_review.game_id = game_id
         new_review.save()
+    return redirect('detail', game_id=game_id)
+
+def assoc_store(request, game_id, store_id):
+    Game.objects.get(id=game_id).stores.add(store_id)
+    return redirect('detail', game_id=game_id)
+
+def assoc_store_delete(request, game_id, store_id):
+    Game.objects.get(id=game_id).stores.remove(store_id)
     return redirect('detail', game_id=game_id)
 
 class GameCreate(CreateView):

@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Cat Collector</title>
+  <title>Gamne Collector</title>
   <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
@@ -14,14 +14,14 @@
 <body>
   <header class="navbar-fixed">
     <nav>
-      <div class="nav-wrapper">
+      <div class="nav-wrapper deep-purple lighten-1">
         <ul>
-          <li><a href="/" class="left brand-logo">&nbsp;&nbsp;CatCollector</a></li>
+          <li><a href="/" class="left brand-logo deep-purple lighten-1">&nbsp;&nbsp;GameCollector</a></li>
         </ul>
         <ul class="right">
           <li><a href="{% url 'about' %}">About</a></li>
-          <li><a href="{% url 'games_create' %}"></a></li>
-          <li><a href="{% url 'index' %}">View All My Cats</a></li>
+          <li><a href="{% url 'games_create' %}">Add Game</a></li>
+          <li><a href="{% url 'index' %}">View Games</a></li>
 
         </ul>
       </div>
@@ -31,8 +31,8 @@
     {% block content %}
     {% endblock %}
   </main>
-  <footer class="page-footer">
-    <div class="right">All Rights Reserved, &copy; 2021 Cat Collector &nbsp;</div>
+  <footer class="page-footer deep-purple lighten-1">
+    <div class="right">All Rights Reserved, &copy; 2021 Game Collector &nbsp;</div>
   </footer>
 </body>
 </html>
